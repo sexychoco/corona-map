@@ -1,32 +1,31 @@
+from dash import Dash, html, dcc
+import plotly.express as px
 import pandas as pd
 
-def make_global_df(condition):
-    df = pd.read_csv(f"data/time_{condition}.csv")
-    df = (
-        df.drop(["Province/State", "Country/Region", "Lat", "Long"], axis=1)
-        .sum()
-        .reset_index(name=condition)
+app = Dash(__name__)
+
+# assume you have a "long-form" data frame
+# see https://plotly.com/python/px-arguments/ for more options
+df = pd.DataFrame({
+    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    "Amount": [4, 1, 2, 2, 4, 5],
+    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+})
+
+fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+
+app.layout = html.Div(children=[
+    html.H1(children='Hello Dash'),
+
+    html.Div(children='''
+        Dash: A web application framework for your data.
+    '''),
+
+    dcc.Graph(
+        id='example-graph',
+        figure=fig
     )
-    df = df.rename(columns={"index": "date"})
-    return df
+])
 
-daily_df = pd.read_csv("data/daily_report.csv")
-
-totals_df = (
-    daily_df[["Confirmed", "Deaths", "Recovered"]].sum().reset_index(name="count")
-)
-totals_df = totals_df.rename(columns={"index": "condition"})
-
-countries_df = daily_df[["Country_Region","Confirmed", "Deaths", "Recovered"]]
-countries_df = daily_df.groupby("Country_Region").sum().reset_index()
-
-conditions = ["confirmed", "deaths", "recovered"]
-
-final_df = None
-
-for condition in conditions:
-    condition_df = make_global_df(condition)
-    if final_df is None:
-        final_df = condition_df
-    else:
-        final_df = final_df.merge(condition_df)
+if __name__ == '__main__':
+    app.run_server(debug=True)
