@@ -4,6 +4,7 @@ import dash_html_components as html
 import plotly.express as px
 from data import countries_df 
 from builders import make_table
+from data import totals_df
 
 print(countries_df)
 
@@ -22,8 +23,9 @@ bubble_map = px.scatter_geo(
     locations="Country_Region",
     locationmode="country names",
     size_max=40,
+    title="Confirmed By Country",
     template="plotly_dark",
-    projection="natural earth",
+    color_continuous_scale=px.colors.sequential.Oryel,
     hover_data={
         "Confirmed": ":,2f",
         "Deaths": ":,2f",
@@ -31,6 +33,19 @@ bubble_map = px.scatter_geo(
         "Country_Region": False,
     },
 )
+
+bubble_map.update_layout(margin=dict(l=0, r=0, t=50, b=0))
+bars_graph = px.bar(
+    totals_df,
+    x="condition",
+    hover_data={"count": ":,"},
+    y="count",
+    template="plotly_dark",
+    title="Total Global Cases",
+    labels={"condition": "Condition", "count": "Count", "color": "Condition"},
+)
+
+bars_graph.update_traces(marker_color=["#e74c3c", "#8e44ad", "#27ae60"])
 
 
 app.layout = html.Div(
@@ -46,9 +61,26 @@ app.layout = html.Div(
             children=[html.H1("Corona Dashboard", style={"fontSize": 40})],
         ),
         html.Div(
+            style={
+              "display":"grid",
+              "gap": 50,
+              "gridTemplateColumns" : "repeat(4,1fr)",  
+            },
             children=[
-                html.Div(children=[dcc.Graph(figure=bubble_map)]),
+                html.Div(
+                    style={"grid-column":"span 3"},
+                    children=[dcc.Graph(figure=bubble_map)]),
                 html.Div(children=[make_table(countries_df)]),
+            ]
+        ),
+        html.Div(
+            style={
+                "display": "grid",
+                "gap": 50,
+                "gridTemplateColumns": "repeat(4,1fr)",
+                },
+            children=[
+                html.Div(children=[dcc.Graph(figure=bars_graph)]),
             ]
         ),
     ],
