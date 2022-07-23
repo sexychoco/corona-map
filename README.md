@@ -13,5 +13,4 @@ Data Science with Python
 * Jupyter Notebooks
 
 ### Result
-[https://sexychoco.github.io/momentum-clone/](https://sexychoco.github.io/my-momentum/)
-![image](https://user-images.githubusercontent.com/95459711/172032647-3324fa80-1221-4b1b-87ad-1c5c9798af41.png)
+![image](https://user-images.githubusercontent.com/95459711/180592219-d6f2f003-94f9-4f89-a427-1624a0b3ec96.png)
