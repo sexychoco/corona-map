@@ -1,5 +1,5 @@
-## my-momentum
-Data Science with Python
+## Data Science with Python
+Introduction to Data Science 
 
 ### Description
 코로나 확진, 사망자, 치료자 수치데이터를 데이터 전처리 과정을 거치고
