@@ -1,6 +1,3 @@
-## Data Science with Python
-Introduction to Data Science 
-
 ### Description
 코로나 확진, 사망자, 치료자 수치데이터를 데이터 전처리 과정을 거치고
 파이썬 데이터 분석 라이브러리인 Pandas와 인터랙티으 웹을 만들기 위한 프레임워크 Dash 를 통하여 Interactive 한 대시보드를 구현해보았습니다. 
